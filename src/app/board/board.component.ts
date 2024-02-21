@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SquareComponent } from '../square/square.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-board',
@@ -13,6 +13,10 @@ import { NgFor } from '@angular/common';
           <app-square [value]="board[row][col]"></app-square>
         </div>
       </div>
+      <div *ngIf="winner">
+      <h2>Winner: {{ winner }}</h2>
+    </div>
+    <button (click)="reset()">Reset Game</button>
     </div>
   `,
     styles: [`
@@ -35,7 +39,7 @@ import { NgFor } from '@angular/common';
       align-items: center;
     }
   `],
-    imports: [SquareComponent , NgFor]
+    imports: [SquareComponent , NgFor, NgIf]
 })
 export class BoardComponent {
   board = [
@@ -76,6 +80,16 @@ export class BoardComponent {
       this.winner = this.board[0][2];
       return;
     }
+  }
+
+  reset() {
+    this.board = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ];
+    this.currentPlayer = 'X';
+    this.winner = '';
   }
 }
 
